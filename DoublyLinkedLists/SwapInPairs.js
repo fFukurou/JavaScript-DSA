@@ -10,7 +10,6 @@ class DoublyLinkedList {
     constructor(value) {
         const newNode = new Node(value);
         this.head = newNode;
-        this.tail = newNode;
         this.length = 1;
     }
 
@@ -30,45 +29,59 @@ class DoublyLinkedList {
         }
     }
 
-    getTail() {
-        if (this.tail === null) {
-            console.log("Tail: null");
-        } else {
-            console.log("Tail: " + this.tail.value);
-        }
-    }
-
     getLength() {
         console.log("Length: " + this.length);
     }
 
     makeEmpty() {
         this.head = null;
-        this.tail = null;
         this.length = 0;
     }
  
-    push(value){
+    push(value) {
         const newNode = new Node(value);
         if (this.length === 0) {
             this.head = newNode;
-            this.tail = newNode;
         } else {
-            this.tail.next = newNode;
-            newNode.prev = this.tail;
-            this.tail = newNode;
+            let currentNode = this.head;
+            while (currentNode.next !== null) {
+                currentNode = currentNode.next;
+            }
+            currentNode.next = newNode;
+            newNode.prev = currentNode;
         }
         this.length++;
-        return this;
     }
 
-    // WRITE THE SWAPFIRST METHOD HERE //
-    swapFirstLast() {
+    // WRITE THE SWAPPAIRS METHOD HERE //
+    swapPairs() {
         if (this.length <= 1) return;
 
-        let temp = this.head.value;
-        this.head.value = this.tail.value;
-        this.tail.value = temp;
+        let dummy = new Node(0);
+        dummy.next = this.head;
+        let previousNode = dummy;
+
+        while (this.head != null && this.head.next != null) {
+            let firstNode = this.head;
+            let secondNode = firstNode.next;
+
+            previousNode.next = secondNode;
+            firstNode.next = secondNode.next;
+
+            secondNode.next = firstNode;
+            secondNode.prev = previousNode;
+            firstNode.prev = secondNode;
+
+            if (firstNode.next != null) {
+                this.head = firstNode.next;
+                previousNode = firstNode;
+                firstNode.next.prev = secondNode;
+            }
+        }
+        this.head = dummy.next;
+        if (this.head != null) {
+            this.head.prev = null;
+        }
     }
     /////////////////////////////////////
 
@@ -82,14 +95,13 @@ myDoublyLinkedList.push(3);
 myDoublyLinkedList.push(4);
 myDoublyLinkedList.push(5);
 
-console.log("Original list:");
+console.log("Original List 1:");
 myDoublyLinkedList.printList();
 
-myDoublyLinkedList.swapFirstLast();
-console.log("\nList after swapping first and last elements:");
+myDoublyLinkedList.swapPairs();
+console.log("\nList 1 after swapping pairs:");
 myDoublyLinkedList.printList();
 
-// Create a new list with an even number of elements
 let myDoublyLinkedList2 = new DoublyLinkedList(1);
 myDoublyLinkedList2.push(2);
 myDoublyLinkedList2.push(3);
@@ -97,41 +109,43 @@ myDoublyLinkedList2.push(4);
 myDoublyLinkedList2.push(5);
 myDoublyLinkedList2.push(6);
 
-console.log("\nOriginal list 2:");
+console.log("\nOriginal List 2:");
 myDoublyLinkedList2.printList();
 
-myDoublyLinkedList2.swapFirstLast();
-console.log("\nList 2 after swapping first and last elements:");
+myDoublyLinkedList2.swapPairs();
+console.log("\nList 2 after swapping pairs:");
 myDoublyLinkedList2.printList();
-
 
 /*
     EXPECTED OUTPUT:
     ----------------
-    Original list:
+    Original List 1:
     1
     2
     3
     4
     5
-    List after swapping first and last elements:
-    5
+
+    List 1 after swapping pairs:
     2
-    3
-    4
     1
-    Original list 2:
+    4
+    3
+    5
+
+    Original List 2:
     1
     2
     3
     4
     5
     6
-    List 2 after swapping first and last elements:
-    6
+
+    List 2 after swapping pairs:
     2
-    3
-    4
-    5
     1
+    4
+    3
+    6
+    5
 */

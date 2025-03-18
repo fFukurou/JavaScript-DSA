@@ -62,15 +62,26 @@ class DoublyLinkedList {
         return this;
     }
 
-    // WRITE THE SWAPFIRST METHOD HERE //
-    swapFirstLast() {
+    // WRITE THE REVERSE METHOD HERE //
+    reverse() {
         if (this.length <= 1) return;
 
-        let temp = this.head.value;
-        this.head.value = this.tail.value;
-        this.tail.value = temp;
+        let temp = this.head;
+        this.head = this.tail;
+        this.tail = temp;
+
+        let before = null;
+        let after = temp.next;
+
+        while (temp) {
+            after = temp.next;
+            temp.next = before;
+            temp.prev = after;
+            before = temp;
+            temp = after;
+        }
     }
-    /////////////////////////////////////
+    ///////////////////////////////////
 
 }
 
@@ -85,8 +96,8 @@ myDoublyLinkedList.push(5);
 console.log("Original list:");
 myDoublyLinkedList.printList();
 
-myDoublyLinkedList.swapFirstLast();
-console.log("\nList after swapping first and last elements:");
+myDoublyLinkedList.reverse();
+console.log("\nList after reversing:");
 myDoublyLinkedList.printList();
 
 // Create a new list with an even number of elements
@@ -100,8 +111,8 @@ myDoublyLinkedList2.push(6);
 console.log("\nOriginal list 2:");
 myDoublyLinkedList2.printList();
 
-myDoublyLinkedList2.swapFirstLast();
-console.log("\nList 2 after swapping first and last elements:");
+myDoublyLinkedList2.reverse();
+console.log("\nList 2 after reversing:");
 myDoublyLinkedList2.printList();
 
 
@@ -114,11 +125,11 @@ myDoublyLinkedList2.printList();
     3
     4
     5
-    List after swapping first and last elements:
+    List after reversing:
     5
-    2
-    3
     4
+    3
+    2
     1
     Original list 2:
     1
@@ -127,11 +138,11 @@ myDoublyLinkedList2.printList();
     4
     5
     6
-    List 2 after swapping first and last elements:
+    List 2 after reversing:
     6
-    2
-    3
-    4
     5
+    4
+    3
+    2
     1
 */

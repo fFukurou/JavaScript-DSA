@@ -62,15 +62,21 @@ class DoublyLinkedList {
         return this;
     }
 
-    // WRITE THE SWAPFIRST METHOD HERE //
-    swapFirstLast() {
-        if (this.length <= 1) return;
+    // WRITE THE ISPALINDROME METHOD HERE //
+    isPalindrome() {
+        if (this.length <= 1) return true;
 
-        let temp = this.head.value;
-        this.head.value = this.tail.value;
-        this.tail.value = temp;
+        let forwardNode = this.head;
+        let backwardNode = this.tail;
+
+        for (let i = 0; i < Math.floor(this.length / 2); i++) {
+            if (forwardNode.value != backwardNode.value) return false;
+            forwardNode = forwardNode.next;
+            backwardNode = backwardNode.prev;
+        }
+        return true;
     }
-    /////////////////////////////////////
+    ////////////////////////////////////////
 
 }
 
@@ -79,59 +85,39 @@ class DoublyLinkedList {
 let myDoublyLinkedList = new DoublyLinkedList(1);
 myDoublyLinkedList.push(2);
 myDoublyLinkedList.push(3);
-myDoublyLinkedList.push(4);
-myDoublyLinkedList.push(5);
+myDoublyLinkedList.push(2);
+myDoublyLinkedList.push(1);
 
-console.log("Original list:");
+console.log("List 1:");
 myDoublyLinkedList.printList();
+console.log("Is List 1 a palindrome? " + myDoublyLinkedList.isPalindrome());
 
-myDoublyLinkedList.swapFirstLast();
-console.log("\nList after swapping first and last elements:");
-myDoublyLinkedList.printList();
-
-// Create a new list with an even number of elements
 let myDoublyLinkedList2 = new DoublyLinkedList(1);
 myDoublyLinkedList2.push(2);
 myDoublyLinkedList2.push(3);
 myDoublyLinkedList2.push(4);
 myDoublyLinkedList2.push(5);
-myDoublyLinkedList2.push(6);
 
-console.log("\nOriginal list 2:");
+console.log("\nList 2:");
 myDoublyLinkedList2.printList();
-
-myDoublyLinkedList2.swapFirstLast();
-console.log("\nList 2 after swapping first and last elements:");
-myDoublyLinkedList2.printList();
-
+console.log("Is List 2 a palindrome? " + myDoublyLinkedList2.isPalindrome());
 
 /*
     EXPECTED OUTPUT:
     ----------------
-    Original list:
+    List 1:
+    1
+    2
+    3
+    2
+    1
+    Is List 1 a palindrome? true
+
+    List 2:
     1
     2
     3
     4
     5
-    List after swapping first and last elements:
-    5
-    2
-    3
-    4
-    1
-    Original list 2:
-    1
-    2
-    3
-    4
-    5
-    6
-    List 2 after swapping first and last elements:
-    6
-    2
-    3
-    4
-    5
-    1
+    Is List 2 a palindrome? false
 */
